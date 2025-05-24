@@ -250,3 +250,6 @@ fabric.properties
 
 # Comment out .idea/ if PyCharm configurations need to be shared,
 .idea/
+
+# Specific to pipewire_recorder
+*.wav
