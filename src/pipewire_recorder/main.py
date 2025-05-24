@@ -1,52 +1,20 @@
 import sys
 import subprocess
-import json
 import signal
 
-from loguru import logger
-
-# Time stamps not required.
-logger.remove()
-logger.add(sys.stderr, format="<level>{level}: {message}</level>\n")
-
-
-
-def list_audio_sources():
-    result = subprocess.run(["pw-dump"], capture_output=True, text=True)
-    nodes = json.loads(result.stdout)
-
-    sources = []
-    for node in nodes:
-        # Ref: https://docs.pipewire.org/page_native_protocol.html
-        if node.get("type") != "PipeWire:Interface:Node":
-            continue
-
-        # Undocumented at time of writing. Reverse engineered from pw-dump.
-        props = node.get("info", {}).get("props", {})
-        media_class = props.get("media.class", "")
-        node_name = props.get("node.name", "unknown")
-        description = props.get("node.description", "")
-
-        #if media_class in ("Audio/Source", "Stream/Output/Audio"):
-        if True:
-            state = node.get("info", {}).get("state", "")
-            sources.append({
-                "id": node.get("id"),
-                "state": state,
-                "name": node_name,
-                "description": description,
-                "media_class": media_class,
-            })
-    return sources
+from common.logging import logger
+from pypewire import get_ports
 
 
 record_proc = subprocess.Popen([
     "pw-record", f"--target=0", "output.wav"
 ])
 
-
-for source in list_audio_sources():
-    print(f"[{source['id']}] Name: {source['name']}  Class: {source['media_class']} ({source['state']})")
+ports = get_ports()
+print()
+for source in ports:
+    print(f"[{source['id']}] Name: {source.get('name', '???')}  "
+          f"Class: {source.get('media_class', '???')} ({source.get('state')})")
 
 
 # # After launching pw-cat in background
