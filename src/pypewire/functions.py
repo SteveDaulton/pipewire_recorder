@@ -21,7 +21,7 @@ def get_node_name(node: dict) -> str:
 
 
 def get_pw_dump() -> list | None:
-    """Return """
+    """Return the parsed JSON output from `pw-dump`, or None if error."""
     try:
         json_data = subprocess.run(
             ['pw-dump'], capture_output=True, text=True, check=True)
