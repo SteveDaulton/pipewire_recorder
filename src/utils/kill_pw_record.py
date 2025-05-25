@@ -8,6 +8,7 @@ import subprocess
 import os
 import signal
 
+
 def get_pw_record_pids():
     try:
         # Use ps and grep to find pw-record processes
@@ -27,6 +28,7 @@ def get_pw_record_pids():
         print(f"Error retrieving process list: {e}")
         return []
 
+
 def stop_pw_record_processes(pids):
     for pid in pids:
         try:
@@ -39,6 +41,7 @@ def stop_pw_record_processes(pids):
         except Exception as e:
             print(f"Error stopping PID {pid}: {e}")
 
+
 def main():
     pids = get_pw_record_pids()
     if not pids:
@@ -46,6 +49,7 @@ def main():
         return
     print(pids)
     stop_pw_record_processes(pids)
+
 
 if __name__ == "__main__":
     main()

@@ -1,17 +1,17 @@
-import sys
 import subprocess
 import signal
 
-from common.logging import logger
+from common import logger
 from pypewire import get_ports
 
 
 record_proc = subprocess.Popen([
-    "pw-record", f"--target=0", "output.wav"
+    "pw-record", "--target=0", "output.wav"
 ])
 
 ports = get_ports()
 print()
+assert ports is not None
 for source in ports:
     print(f"[{source['id']}] Name: {source.get('name', '???')}  "
           f"Class: {source.get('media_class', '???')} ({source.get('state')})")
@@ -21,14 +21,13 @@ for source in ports:
 # source_output_port = find_port_id(source_node_id, direction="output")
 # pw_cat_input_port = find_pw_cat_input_port()
 #
-# create-link | cl    # Create a link between nodes. <node-id> <port-id> <node-id> <port-id> [<properties>]
+# create-link | cl    # Create a link between nodes.
+# <node-id> <port-id> <node-id> <port-id> [<properties>]
 # subprocess.run([
 #     "pw-cli", "create-link",
 #     str(source_output_port),
 #     str(pw_cat_input_port)
 # ])
-
-
 
 
 # target = input("Enter source name to start recording: ")
@@ -57,5 +56,3 @@ except subprocess.TimeoutExpired:
     logger.warning("pw-record shutdown failed. Forcing kill.")
     record_proc.kill()
     record_proc.wait()
-
-

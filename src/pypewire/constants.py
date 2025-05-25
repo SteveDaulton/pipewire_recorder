@@ -5,6 +5,7 @@ Reverse engineered from pw_dump due to lack of documentation.
 
 from enum import StrEnum
 
+
 class PWKey:
     """Common object keys."""
     # Top level.
@@ -18,6 +19,7 @@ class PWKey:
     # Other known fields.
     DIRECTION = 'direction'
     PARAMS = 'params'
+    NODE_NAME = 'node.name'
 
 
 class PWType(StrEnum):
