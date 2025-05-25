@@ -11,7 +11,6 @@ record_proc = subprocess.Popen([
 
 ports = get_ports()
 print()
-assert ports is not None
 for source in ports:
     print(f"[{source['id']}] Name: {source.get('name', '???')}  "
           f"Class: {source.get('media_class', '???')} ({source.get('state')})")

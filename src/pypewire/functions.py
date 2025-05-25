@@ -35,11 +35,11 @@ def get_pw_dump() -> list | None:
         return None
 
 
-def get_ports(direction='input') -> list | None:
+def get_ports(direction='input') -> list:
     pw_objects = get_pw_dump()
 
     if pw_objects is None:
-        return None
+        return []
     port_list = []
     for obj in pw_objects:
         if obj.get('type') == PWType.NODE:
@@ -51,8 +51,7 @@ def get_ports(direction='input') -> list | None:
 
 def audio_sources():
     """Return a list of audio sources."""
-    result = subprocess.run(["pw-dump"], capture_output=True, text=True)
-    nodes = json.loads(result.stdout)
+    nodes = get_pw_dump()
 
     sources = []
     for node in nodes:
